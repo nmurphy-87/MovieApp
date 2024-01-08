@@ -85,27 +85,34 @@ fun MovieRow(
                 )
 
                 AnimatedVisibility(visible = expanded) {
-                    Text(
-                        buildAnnotatedString {
-                            withStyle(
-                                style = SpanStyle(
-                                    color = Color.DarkGray,
-                                    fontSize = 12.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-                            ) {
-                                append("Plot : ")
-                            }
-                            withStyle(
-                                style = SpanStyle(
-                                    color = Color.DarkGray,
-                                    fontSize = 12.sp
-                                )
-                            ) {
-                                append(movie.plot)
-                            }
-                        }
-                    )
+                    Column{
+                        Text(
+                            buildAnnotatedString {
+                                withStyle(
+                                    style = SpanStyle(
+                                        color = Color.DarkGray,
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                ) {
+                                    append("Plot : ")
+                                }
+                                withStyle(
+                                    style = SpanStyle(
+                                        color = Color.DarkGray,
+                                        fontSize = 12.sp
+                                    )
+                                ) {
+                                    append(movie.plot)
+                                }
+                            },
+                            modifier =  Modifier.padding(6.dp)
+                        )
+                        Divider(modifier = Modifier.padding(4.dp))
+                        Text(text = "Director : ${movie.director}", style = MaterialTheme.typography.caption)
+                        Text(text = "Actors : ${movie.actors}", style = MaterialTheme.typography.caption)
+                        Text(text = "Rating : ${movie.rating}: ", style = MaterialTheme.typography.caption)
+                    }
                 }
 
                 Icon(

@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
+import coil.transform.CircleCropTransformation
 import com.niallmurph.movieapp.models.MovieModel
 import com.niallmurph.movieapp.models.getMovies
 
@@ -44,7 +45,11 @@ fun MovieRow(
                 elevation = 4.dp
             ) {
                 Image(
-                    painter = rememberImagePainter(data = movie.images[0]),
+                    painter = rememberImagePainter(data = movie.images[0],
+                    builder = {
+                        crossfade(true)
+                        transformations(CircleCropTransformation())
+                    }),
                     contentDescription = "Film image"
                 )
             }

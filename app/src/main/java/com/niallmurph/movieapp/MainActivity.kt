@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.niallmurph.movieapp.navigation.MovieNavigation
 import com.niallmurph.movieapp.ui.theme.MovieAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -28,7 +29,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApp {
-                MainContent()
+                MovieNavigation()
             }
         }
     }
@@ -40,45 +41,11 @@ fun MyApp(
     content: @Composable () -> Unit
 ) {
     MovieAppTheme {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    backgroundColor = Color.Magenta,
-                    elevation = 6.dp
-                ) {
-                    Text("Movies")
-                }
-            }
-        ) {
-            MainContent()
-        }
+        content()
     }
 }
 
-@Composable
-fun MainContent(
-    movieList: List<String> = listOf(
-        "Avatar",
-        "300",
-        "Harry Potter",
-        "Lord of the Rings",
-        "Watchmen",
-        "Star Wars",
-        "The Usual Suspects",
-        "Life"
-    )
-) {
-    Column(modifier = Modifier.padding(12.dp)) {
-        LazyColumn {
-            items(items = movieList) {
-                MovieRow(it) { movie ->
-                    Log.d("MOVIE", "$movie")
 
-                }
-            }
-        }
-    }
-}
 
 @Composable
 fun MovieRow(
@@ -91,7 +58,7 @@ fun MovieRow(
             .fillMaxWidth()
             .height(120.dp)
             .clickable {
-               onClick(movie)
+                onClick(movie)
             },
         shape = RoundedCornerShape(corner = CornerSize(16.dp)),
         elevation = 6.dp
@@ -112,13 +79,5 @@ fun MovieRow(
             Text(text = movie)
         }
 
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    MyApp {
-        MainContent()
     }
 }

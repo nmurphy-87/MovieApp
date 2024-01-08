@@ -1,10 +1,11 @@
 package com.niallmurph.movieapp.screens.details
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,14 +15,26 @@ import androidx.navigation.NavController
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun DetailsScreen(navController: NavController, movieName : String?) {
+fun DetailsScreen(navController: NavController, movieName: String?) {
     Scaffold(
         topBar = {
             TopAppBar(
-                backgroundColor = Color.Magenta,
+                backgroundColor = Color.LightGray,
                 elevation = 6.dp
             ) {
-                Text("Movies Detail")
+                Row(
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "BackButton",
+                        modifier = Modifier.clickable {
+                            navController.popBackStack()
+                        })
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Text("Movies Detail")
+                }
+
             }
         }
     ) {
@@ -33,11 +46,6 @@ fun DetailsScreen(navController: NavController, movieName : String?) {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(text = movieName.toString(), style = MaterialTheme.typography.h5)
-                Button(
-                    onClick = { navController.popBackStack() },
-                ) {
-                    Text("Back")
-                }
             }
         }
     }

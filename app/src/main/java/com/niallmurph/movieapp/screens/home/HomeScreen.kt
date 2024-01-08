@@ -53,7 +53,7 @@ fun MainContent(
             items(items = movieList) {
                 MovieRow(it) { movie ->
                     Log.d("MOVIE", "$movie")
-                    navController.navigate(route = MovieScreens.DetailsScreen.name)
+                    navController.navigate(route = MovieScreens.DetailsScreen.name+"/$movie")
                 }
             }
         }

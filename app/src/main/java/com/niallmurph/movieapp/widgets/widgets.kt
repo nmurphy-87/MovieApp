@@ -1,17 +1,27 @@
 package com.niallmurph.movieapp.widgets
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
 import com.niallmurph.movieapp.models.MovieModel
@@ -22,11 +32,15 @@ fun MovieRow(
     movie: MovieModel = getMovies()[0],
     onClick: (String) -> Unit
 ) {
+
+    var expanded by remember {
+        mutableStateOf(false)
+    }
+
     Card(
         modifier = Modifier
             .padding(4.dp)
             .fillMaxWidth()
-            .height(120.dp)
             .clickable {
                 onClick(movie.id)
             },
@@ -46,10 +60,10 @@ fun MovieRow(
             ) {
                 Image(
                     painter = rememberImagePainter(data = movie.images[0],
-                    builder = {
-                        crossfade(true)
-                        transformations(CircleCropTransformation())
-                    }),
+                        builder = {
+                            crossfade(true)
+                            transformations(CircleCropTransformation())
+                        }),
                     contentDescription = "Film image"
                 )
             }
@@ -68,6 +82,39 @@ fun MovieRow(
                 Text(
                     text = "Year : ${movie.year}",
                     style = MaterialTheme.typography.caption
+                )
+
+                AnimatedVisibility(visible = expanded) {
+                    Text(
+                        buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    color = Color.DarkGray,
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            ) {
+                                append("Plot : ")
+                            }
+                            withStyle(
+                                style = SpanStyle(
+                                    color = Color.DarkGray,
+                                    fontSize = 12.sp
+                                )
+                            ) {
+                                append(movie.plot)
+                            }
+                        }
+                    )
+                }
+
+                Icon(
+                    imageVector = if (!expanded) Icons.Filled.KeyboardArrowDown else Icons.Filled.KeyboardArrowUp,
+                    contentDescription = "Down Arrow",
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable { expanded = !expanded },
+                    tint = Color.DarkGray
                 )
 
             }

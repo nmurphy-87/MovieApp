@@ -14,8 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.niallmurph.movieapp.MovieRow
+import com.niallmurph.movieapp.models.MovieModel
+import com.niallmurph.movieapp.models.getMovies
 import com.niallmurph.movieapp.navigation.MovieScreens
+import com.niallmurph.movieapp.widgets.MovieRow
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -37,16 +39,7 @@ fun HomeScreen(navController: NavController) {
 @Composable
 fun MainContent(
     navController: NavController,
-    movieList: List<String> = listOf(
-        "Avatar",
-        "300",
-        "Harry Potter",
-        "Lord of the Rings",
-        "Watchmen",
-        "Star Wars",
-        "The Usual Suspects",
-        "Life"
-    )
+    movieList: List<MovieModel> = getMovies()
 ) {
     Column(modifier = Modifier.padding(12.dp)) {
         LazyColumn {

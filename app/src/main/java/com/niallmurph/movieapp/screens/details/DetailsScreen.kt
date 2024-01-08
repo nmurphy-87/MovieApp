@@ -33,6 +33,11 @@ fun DetailsScreen(navController: NavController, movieName : String?) {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(text = movieName.toString(), style = MaterialTheme.typography.h5)
+                Button(
+                    onClick = { navController.popBackStack() },
+                ) {
+                    Text("Back")
+                }
             }
         }
     }

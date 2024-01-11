@@ -30,7 +30,7 @@ import com.niallmurph.movieapp.models.getMovies
 @Composable
 fun MovieRow(
     movie: MovieModel = getMovies()[0],
-    onClick: (String) -> Unit
+    onClick: (String) -> Unit = {}
 ) {
 
     var expanded by remember {

@@ -1,8 +1,11 @@
 package com.niallmurph.movieapp.screens.details
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -12,10 +15,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
+import com.niallmurph.movieapp.models.MovieModel
+import com.niallmurph.movieapp.models.getMovies
+import com.niallmurph.movieapp.widgets.MovieRow
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun DetailsScreen(navController: NavController, movieName: String?) {
+fun DetailsScreen(navController: NavController, movieId: String?) {
+    val newMovieList = getMovies().filter { movie ->
+        movie.id == movieId
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -42,10 +53,32 @@ fun DetailsScreen(navController: NavController, movieName: String?) {
             modifier = Modifier.fillMaxSize()
         ) {
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = movieName.toString(), style = MaterialTheme.typography.h5)
+                MovieRow(movie = newMovieList.first())
+                Spacer(modifier = Modifier.height(8.dp))
+                Divider()
+                Text(text = "Movie Images")
+                ScrollableImageRow(newMovieList)
+            }
+        }
+    }
+}
+
+@Composable
+private fun ScrollableImageRow(newMovieList: List<MovieModel>) {
+    LazyRow {
+        items(newMovieList[0].images) { image ->
+            Card(
+                modifier = Modifier
+                    .padding(12.dp)
+                    .size(240.dp),
+                elevation = 4.dp
+            ) {
+                Image(
+                    painter = rememberImagePainter(data = image),
+                    contentDescription = "Movie images"
+                )
             }
         }
     }
